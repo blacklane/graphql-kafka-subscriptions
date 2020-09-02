@@ -111,6 +111,10 @@ export class KafkaPubSub extends PubSubEngine {
     if (this.producer) {
       await this.producer.disconnect()
     }
+
+    if (this.consumer) {
+      await this.consumer.disconnect()
+    }
   }
 
   private serialiseMessage(message: any): string {
@@ -127,10 +131,7 @@ export class KafkaPubSub extends PubSubEngine {
     return producer
   }
 
-  private async handleMessage(topic: string, partition: number, message: Kafka.Message) {
-    const prefix = `${topic}[${partition}] / ${message.timestamp}`
-    console.log(`- ${prefix} ${message.key}#${message.value}`)
-
+  private async handleMessage(topic: string, _: number, message: Kafka.Message) {
     if (this.options.useHeaders && message.headers) {
       const channelHeader = message.headers['channel']
       if (channelHeader) {
