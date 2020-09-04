@@ -9,7 +9,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "prepare": "tsc",
-    "preinstall": "tsc"
+    "postinstall": "tsc"
   },
   "files": [
     "dist/"
